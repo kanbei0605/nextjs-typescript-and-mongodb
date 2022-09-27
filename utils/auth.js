@@ -1,17 +1,9 @@
-/*
- *  This module has been adapted from the Next.js example app with-cookie-auth,
- *  by ZEIT, Inc.
- *    https://github.com/zeit/next.js/tree/canary/examples/with-cookie-auth
- */
-"use strict";
-
 import React, { useEffect } from "react";
 import jsCookie from "js-cookie";
 import Router from "next/router";
 import nextCookies from "next-cookies";
 
 export const login = ({ token }, remember) => {
-  console.log(token);
   remember
     ? jsCookie.set("token", token, {
         expires: 14,
@@ -24,7 +16,6 @@ export const login = ({ token }, remember) => {
 };
 
 export const logout = () => {
-  console.log("logout");
   jsCookie.remove("token");
 
   // Log out from all windows

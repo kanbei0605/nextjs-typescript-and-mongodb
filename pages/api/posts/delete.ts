@@ -1,19 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import mongodb from "mongodb";
 import { Post } from "src/Models/index";
-import { IPost } from "src/Models/Post";
 import { connectToDatabase } from "src/utils";
 
-export default async function createPost(
+export default async function deletePost(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { id } = req.body;
   if (req.method === "POST") {
+    const query = { _id: new mongodb.ObjectID(id) };
     try {
       await connectToDatabase();
-      const body: IPost = JSON.parse(req.body);
-      const newPost = new Post(body);
-      const saved = await newPost.save();
-      res.send(saved);
+      await Post.deleteOne(query).then(() => {
+				res.status(200).send("success");
+			}).catch(err => {
+				console.log(err);
+			});
     } catch (err) {
       console.log(err);
       res.status(500).send("error");

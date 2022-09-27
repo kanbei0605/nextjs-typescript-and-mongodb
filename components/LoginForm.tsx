@@ -74,7 +74,6 @@ const LoginForm = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 />
-                {/* <label className="text-red-500">{errors.emailnotfound}</label> */}
               </div>
               <div className="mt-4">
                 <label className="block">Password</label>
@@ -85,7 +84,6 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                 />
-                {/* <label className="text-red-500">{errors.password}</label> */}
               </div>
               <div className="flex items-baseline justify-between">
                 <button

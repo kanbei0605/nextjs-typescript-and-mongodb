@@ -4,7 +4,7 @@ import Input from "src/components/Input";
 import Router from "next/router";
 import Link from "next/link";
 
-export default function create() {
+export default function edit() {
   const [post, setPost] = useState({
     title: "",
     content: "",
@@ -40,7 +40,7 @@ export default function create() {
 
   return (
     <div>
-      <Header>Add Item</Header>
+      <Header>Edit item</Header>
       <form
         onSubmit={handlePostDelivery}
         className="flex flex-wrap w-full md:w-64 items-center justify-center space-y-2"

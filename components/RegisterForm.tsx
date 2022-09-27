@@ -31,11 +31,9 @@ const RegisterForm = () => {
         console.log("Registration failed.");
       }
     } catch (err) {
-      console.error(
-        "You have an error in your code or there are network issues.",
-        err
+      setFieldError(
+        "You have an error in your code or there are network issues"
       );
-      // setNetworkErrors(true);
     }
   };
 
