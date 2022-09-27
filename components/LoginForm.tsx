@@ -6,12 +6,10 @@ import { login } from "../utils/auth";
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [networkErrors, setNetworkErrors] = useState<boolean>(false);
+  const [fieldError, setFieldError] = useState<string>("");
 
   const onLogin = async (e) => {
     e.preventDefault();
-    setNetworkErrors(false);
-
     try {
       const response = await fetch("/api/login", {
         method: "POST",
@@ -26,11 +24,11 @@ const LoginForm = () => {
         console.log(token);
         // login({ token }, values.remember);
       } else if (response.status === 404) {
-        // setFieldError("username", "No such user exists.");
+        setFieldError("No such user exists.");
       } else if (response.status === 401) {
-        // setFieldError("password", "Incorrect password.");
+        setFieldError("Incorrect password.");
       } else {
-        console.log("Login failed.");
+        setFieldError("Login failed.");
         // let error = new Error(response.statusText);
         // error.response = response;
         // throw error;
@@ -40,7 +38,6 @@ const LoginForm = () => {
         "You have an error in your code or there are network issues.",
         err
       );
-      setNetworkErrors(true);
     }
     console.log("onLogin");
   };
@@ -70,6 +67,9 @@ const LoginForm = () => {
             Login to your account
           </h3>
           <form onSubmit={onLogin}>
+            <div className="flex justify-center mt-2">
+              <span className="text-red-600 font-semibold">{fieldError}</span>
+            </div>
             <div className="mt-4">
               <div>
                 <label className="block">Email</label>

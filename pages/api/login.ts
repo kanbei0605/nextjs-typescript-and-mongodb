@@ -1,39 +1,24 @@
-/*
- *  Portions of this API have been adapted from the Next.js example app
- *  with-cookie-auth, by ZEIT, Inc.
- *    https://github.com/zeit/next.js/tree/canary/examples/with-cookie-auth
- */
-"use strict";
-
 import bcrypt from "bcrypt";
-import { MongoClient } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
+import { User } from "src/Models/index";
+import { IUser } from "src/Models/User";
 import { connectToDatabase } from "src/utils";
 
-const dbName = "nextjs-local-authentication";
-const colName = "users";
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-	console.log(req.body);
-  const { email, password } = JSON.parse(req.body);
+  const { email, password } = req.body;
 
-  // Connect to database
-  const client = new MongoClient(process.env.DB, {
-    useUnifiedTopology: true,
-  });
   try {
-    await client.connect();
-    const col = client.db(dbName).collection(colName);
+    await connectToDatabase();
 
     // Try to find email
-    let user = await col.findOne({ email: email });
+    let user = await User.findOne({ email: email });
 
-    // If no email, user doesn't exist
+    // If no email doesn't exist
     if (!user) {
       res.status(404).json({ message: "No user found" });
     } else {
       // Compare user-entered password to stored hash
-      const passwordMatch = await bcrypt.compare(password, user.password_hash);
+      const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (passwordMatch) {
         // Send all-clear with _id as token
@@ -50,5 +35,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // Disconnect from database
-  client.close();
 };
