@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       <Header>NextJS with TS and mongo:)</Header>
       <Link href="/posts">Posts</Link>
-      <LoginForm></LoginForm>
+      <LoginForm />
     </div>
   );
 }

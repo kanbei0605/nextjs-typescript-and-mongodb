@@ -10,6 +10,7 @@ const RegisterForm = () => {
     e.preventDefault();
     console.log("onRegister");
   };
+  
   return (
     <>
       <div className="flex items-center justify-center bg-gray-100 px-2">

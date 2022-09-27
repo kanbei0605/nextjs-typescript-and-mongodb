@@ -1,12 +1,47 @@
 import { useState } from "react";
-import Link from 'next/link';
+import Link from "next/link";
+import fetch from "isomorphic-unfetch";
+import { login } from "../utils/auth";
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [networkErrors, setNetworkErrors] = useState<boolean>(false);
 
-  const onLogin = (e) => {
-		e.preventDefault();
+  const onLogin = async (e) => {
+    e.preventDefault();
+    setNetworkErrors(false);
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      if (response.status === 200) {
+        const { token } = await response.json();
+        console.log(token);
+        // login({ token }, values.remember);
+      } else if (response.status === 404) {
+        // setFieldError("username", "No such user exists.");
+      } else if (response.status === 401) {
+        // setFieldError("password", "Incorrect password.");
+      } else {
+        console.log("Login failed.");
+        // let error = new Error(response.statusText);
+        // error.response = response;
+        // throw error;
+      }
+    } catch (err) {
+      console.error(
+        "You have an error in your code or there are network issues.",
+        err
+      );
+      setNetworkErrors(true);
+    }
     console.log("onLogin");
   };
   return (
