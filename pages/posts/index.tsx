@@ -3,7 +3,7 @@ import { IPost } from "src/Models/Post";
 import { useEffect, useState } from "react";
 import Header from "src/components/Header";
 import { withAuthSync, logout } from "../../utils/auth";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const Usuarios = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -122,12 +122,12 @@ const Usuarios = () => {
             Add one
           </div>
         </Link>
-        <div
+        <button
           className="bg-red-500 inline-block px-2 py-1 text-white cursor-pointer"
           onClick={onDelete}
         >
           Delete
-        </div>
+        </button>
       </div>
       <div className="py-4 flex flex-wrap overflow-y-scroll h-auto my-4 border-4 rounded-md">
         {mappedPosts}

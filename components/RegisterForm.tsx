@@ -29,7 +29,6 @@ const RegisterForm = () => {
         setFieldError("That email is already taken.");
       } else {
         setFieldError("Registration failed.");
-        console.log("Registration failed.");
       }
     } catch (err) {
       setFieldError(

@@ -2,7 +2,10 @@ import { connect, ConnectionOptions } from "mongoose";
 const {
   // Attempts to connect to MongoDB and then tries to connect locally:)
   MONGO_URI = "mongodb://localhost:27017/next_test",
+  // MONGO_URI = "mongodb+srv://kanbei:kNnqncy8OyJZiAIS@cluster0.kgtzwpv.mongodb.net/next_test",
 } = process.env;
+
+console.log(MONGO_URI);
 
 const options: ConnectionOptions = {
   useFindAndModify: true,
