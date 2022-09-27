@@ -19,7 +19,7 @@ export const login = ({ token }, remember) => {
     : jsCookie.set("token", token, {
         secure: process.env.NODE_ENV === "production" ? true : false
       });
-  Router.push("/dashboard");
+  Router.push("/posts");
 };
 
 export const logout = () => {

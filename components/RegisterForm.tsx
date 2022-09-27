@@ -1,16 +1,44 @@
 import { useState } from "react";
+import Router from "next/router";
 import Link from "next/link";
+import { login } from "../utils/auth";
 
 const RegisterForm = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [fieldError, setFieldError] = useState<string>("");
 
-  const onRegister = (e) => {
+  const onRegister = async (e) => {
     e.preventDefault();
-    console.log("onRegister");
+    const data = {
+      name: name,
+      email: email,
+      password: password,
+    };
+    try {
+      const response = await fetch(window.location.origin + "/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (response.status === 200) {
+        Router.push("/");
+      } else if (response.status === 409) {
+        setFieldError("That email is already taken.");
+      } else {
+        setFieldError("Registration failed.");
+        console.log("Registration failed.");
+      }
+    } catch (err) {
+      console.error(
+        "You have an error in your code or there are network issues.",
+        err
+      );
+      // setNetworkErrors(true);
+    }
   };
-  
+
   return (
     <>
       <div className="flex items-center justify-center bg-gray-100 px-2">
@@ -36,7 +64,7 @@ const RegisterForm = () => {
           <h3 className="text-2xl font-bold text-center">Join us</h3>
           <form onSubmit={onRegister}>
             <div className="flex justify-center mt-2">
-              {/* <span className="text-red-600 font-semibold">{errors.email}</span> */}
+              <span className="text-red-600 font-semibold">{fieldError}</span>
             </div>
             <div className="mt-4">
               <div>
@@ -77,9 +105,7 @@ const RegisterForm = () => {
                   Create Account
                 </button>
               </div>
-              <Link href="/">
-                Already have an account?
-              </Link>
+              <Link href="/">Already have an account?</Link>
             </div>
           </form>
         </div>
