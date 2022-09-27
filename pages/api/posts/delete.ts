@@ -18,7 +18,6 @@ export default async function deletePost(
 				console.log(err);
 			});
     } catch (err) {
-      console.log(err);
       res.status(500).send("error");
     }
   } else {

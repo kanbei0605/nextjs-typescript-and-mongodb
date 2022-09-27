@@ -3,6 +3,7 @@ import { IPost } from "src/Models/Post";
 import { useEffect, useState } from "react";
 import Header from "src/components/Header";
 import { withAuthSync, logout } from "../../utils/auth";
+import toast from 'react-hot-toast';
 
 const Usuarios = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -48,13 +49,12 @@ const Usuarios = () => {
       if (response.status === 200) {
         getPosts();
       } else if (response.status === 409) {
-        // setFieldError("That email is already taken.");
+        toast.error("Somthing went wrong");
       } else {
-        // setFieldError("Registration failed.");
-        console.log("Registration failed.");
+        toast.error("Somthing went wrong");
       }
     } catch (err) {
-      console.log("You have an error in your code or there are network issues");
+      toast.error("You have an error in your code or there are network issues");
     }
   };
 

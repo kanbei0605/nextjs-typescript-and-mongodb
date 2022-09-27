@@ -14,7 +14,6 @@ export default async function getByID(
     try {
       await connectToDatabase();
       const post: IPost = await Post.findOne(query);
-      console.log(post);
       res.json(post)
     } catch (err) {
       console.log(err);

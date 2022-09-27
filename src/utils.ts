@@ -4,8 +4,6 @@ const {
   MONGO_URI = "mongodb://localhost:27017/next_test",
 } = process.env;
 
-console.log(MONGO_URI);
-
 const options: ConnectionOptions = {
   useFindAndModify: true,
   useUnifiedTopology: true,
