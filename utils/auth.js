@@ -3,16 +3,14 @@ import jsCookie from "js-cookie";
 import Router from "next/router";
 import nextCookies from "next-cookies";
 
-export const login = ({ token }, remember) => {
-  remember
-    ? jsCookie.set("token", token, {
-        expires: 14,
-        secure: process.env.NODE_ENV === "production" ? true : false
-      })
-    : jsCookie.set("token", token, {
-        secure: process.env.NODE_ENV === "production" ? true : false
-      });
+export const login = ({ token }, userData) => {
+  jsCookie.set('token', token, { expires: 1 })
+  setUserData(userData);
   Router.push("/posts");
+};
+
+export const setUserData = (userData) => {
+  window.localStorage.setItem("userData", JSON.stringify(userData));
 };
 
 export const logout = () => {
@@ -24,7 +22,7 @@ export const logout = () => {
   Router.push("/");
 };
 
-export const auth = ctx => {
+export const auth = (ctx) => {
   const { token } = nextCookies(ctx);
 
   if (!token) {
@@ -39,9 +37,14 @@ export const auth = ctx => {
   return token;
 };
 
-export const withAuthSync = WrappedComponent => {
-  const Wrapper = props => {
-    const syncLogout = event => {
+export const getUserData = () => {
+  const userData = window.localStorage.getItem('userData');
+  return JSON.parse(userData);
+}
+
+export const withAuthSync = (WrappedComponent) => {
+  const Wrapper = (props) => {
+    const syncLogout = (event) => {
       if (event.key === "logout") {
         Router.push("/");
       }
@@ -59,7 +62,7 @@ export const withAuthSync = WrappedComponent => {
     return <WrappedComponent {...props} />;
   };
 
-  Wrapper.getInitialProps = async ctx => {
+  Wrapper.getInitialProps = async (ctx) => {
     const token = auth(ctx);
 
     const componentProps =

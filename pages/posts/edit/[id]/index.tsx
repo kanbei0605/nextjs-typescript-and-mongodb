@@ -56,7 +56,6 @@ export default function edit() {
       content: post.content
     };
 
-    
     try {
       const response = await fetch("/api/posts/update", {
         method: "PUT",
@@ -71,7 +70,7 @@ export default function edit() {
         toast.error("Something went wrong");
       }
     } catch (err) {
-      toast.error("SYou have an error in your code or there are network issues");
+      toast.error("You have an error in your code or there are network issues");
     }
   };
 

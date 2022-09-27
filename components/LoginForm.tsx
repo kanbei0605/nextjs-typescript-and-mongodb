@@ -22,8 +22,8 @@ const LoginForm = () => {
       });
       if (response.status === 200) {
         toast.success("Login success");
-        const { token } = await response.json();
-        login({ token }, true);
+        const { token, userData } = await response.json();
+        login({ token }, userData);
       } else if (response.status === 404) {
         setFieldError("No such user exists.");
       } else if (response.status === 401) {

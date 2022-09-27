@@ -3,7 +3,7 @@ import { Post } from "src/Models/index";
 import { IPost } from "src/Models/Post";
 import { connectToDatabase } from "src/utils";
 
-export default async function createPost(
+export default async function getPosts(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -11,7 +11,7 @@ export default async function createPost(
     try {
       await connectToDatabase();
       const body: IPost = JSON.parse(req.body);
-      const newPost: IPost = new Post(body);
+      const newPost = new Post(body);
       const saved = await newPost.save();
       res.send(saved);
     } catch (err) {

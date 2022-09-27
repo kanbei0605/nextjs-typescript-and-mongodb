@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "src/Models/index";
 import { IUser } from "src/Models/User";
 import { connectToDatabase } from "src/utils";
+import jwt from "jsonwebtoken";
+require("dotenv").config();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, password } = req.body;
@@ -21,8 +23,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (passwordMatch) {
+        const token = jwt.sign(
+          { email: user.email, _id: user._id },
+          process.env.jwtSecret,
+          { expiresIn: 86400 }
+        ); // 1 day token
         // Send all-clear with _id as token
-        res.status(200).json({ token: user._id.toString() });
+        res.status(200).json({ token: token, userData: user });
       } else {
         res.status(401).json({ message: "Incorrect password" });
       }

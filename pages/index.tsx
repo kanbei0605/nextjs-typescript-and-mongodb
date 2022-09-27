@@ -8,7 +8,6 @@ export default function Home() {
       <div className="row g-0">
         <div className="col-md-7">
           <h1 className="card-title text-center text-6xl mb-4">Login</h1>
-          {/* <Link href="/posts">Posts</Link> */}
           <div className="card-body">
             <LoginForm />
           </div>
