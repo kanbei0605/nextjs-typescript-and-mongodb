@@ -21,25 +21,19 @@ const LoginForm = () => {
       });
       if (response.status === 200) {
         const { token } = await response.json();
-        console.log(token);
-        // login({ token }, values.remember);
+        login({ token }, true);
       } else if (response.status === 404) {
         setFieldError("No such user exists.");
       } else if (response.status === 401) {
         setFieldError("Incorrect password.");
       } else {
         setFieldError("Login failed.");
-        // let error = new Error(response.statusText);
-        // error.response = response;
-        // throw error;
       }
     } catch (err) {
-      console.error(
-        "You have an error in your code or there are network issues.",
-        err
+      setFieldError(
+        "You have an error in your code or there are network issues"
       );
     }
-    console.log("onLogin");
   };
   return (
     <>

@@ -2,8 +2,9 @@ import Link from "next/link";
 import { IPost } from "src/Models/Post";
 import { useEffect, useState } from "react";
 import Header from "src/components/Header";
+import { withAuthSync, logout } from "../../utils/auth";
 
-export default function Usuarios() {
+const Usuarios = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   useEffect(() => {
     const asyncGetPosts = async () => {
@@ -41,11 +42,9 @@ export default function Usuarios() {
     <div>
       <Header>Total posts: {posts.length}</Header>
       <div className="flex space-x-4">
-        <Link href="/">
-          <div className="bg-red-400 inline-block px-2 py-1 text-white cursor-pointer">
-            Back
-          </div>
-        </Link>
+        <div className="bg-red-400 inline-block px-2 py-1 text-white cursor-pointer" onClick={logout}>
+          Logout
+        </div>
         <Link href="/posts/create">
           <div className="bg-blue-400 inline-block px-2 py-1 text-white cursor-pointer">
             Add one
@@ -57,4 +56,6 @@ export default function Usuarios() {
       </div>
     </div>
   );
-}
+};
+
+export default withAuthSync(Usuarios);

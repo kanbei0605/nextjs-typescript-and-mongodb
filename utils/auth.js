@@ -11,6 +11,7 @@ import Router from "next/router";
 import nextCookies from "next-cookies";
 
 export const login = ({ token }, remember) => {
+  console.log(token);
   remember
     ? jsCookie.set("token", token, {
         expires: 14,
@@ -23,12 +24,13 @@ export const login = ({ token }, remember) => {
 };
 
 export const logout = () => {
+  console.log("logout");
   jsCookie.remove("token");
 
   // Log out from all windows
   window.localStorage.setItem("logout", Date.now());
 
-  Router.push("/login");
+  Router.push("/");
 };
 
 export const auth = ctx => {
@@ -36,10 +38,10 @@ export const auth = ctx => {
 
   if (!token) {
     if (typeof window === "undefined") {
-      ctx.res.writeHead(302, { Location: "/login" });
+      ctx.res.writeHead(302, { Location: "/" });
       ctx.res.end();
     } else {
-      Router.push("/login");
+      Router.push("/");
     }
   }
 
@@ -50,7 +52,7 @@ export const withAuthSync = WrappedComponent => {
   const Wrapper = props => {
     const syncLogout = event => {
       if (event.key === "logout") {
-        Router.push("/login");
+        Router.push("/");
       }
     };
 
