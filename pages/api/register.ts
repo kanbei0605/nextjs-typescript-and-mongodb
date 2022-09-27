@@ -32,8 +32,6 @@ export default async function getPosts(
 				});
 				const saved = await newUser.save();
 
-        // Send all-clear with _id as token
-        // res.status(200).json({ token: saved.insertedId.toString() });
 				res.send(saved);
       }
     } catch (err) {
