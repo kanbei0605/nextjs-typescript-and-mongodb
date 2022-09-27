@@ -7,7 +7,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState<string>("");
 
   const onRegister = (e) => {
-		e.preventDefault();
+    e.preventDefault();
     console.log("onRegister");
   };
   return (
@@ -68,7 +68,7 @@ const RegisterForm = () => {
                   className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              <div className="flex">
+              <div className="flex mb-2">
                 <button
                   type="submit"
                   className="w-full px-6 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-teal-500"
@@ -76,9 +76,9 @@ const RegisterForm = () => {
                   Create Account
                 </button>
               </div>
-              <div className="mt-6 text-grey-dark">
+              <Link href="/">
                 Already have an account?
-              </div>
+              </Link>
             </div>
           </form>
         </div>
