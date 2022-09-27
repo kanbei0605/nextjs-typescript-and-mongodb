@@ -36,7 +36,6 @@ export default function edit() {
     if (window) {
       asyncGetPost()
         .then((post) => {
-          console.log(post);
           setPost(post);
         })
         .catch((err) => {
@@ -56,7 +55,24 @@ export default function edit() {
       title: post.title,
       content: post.content
     };
-    console.log(dt);
+    const asyncUpdate = async () => {
+      const { origin } = window.location;
+      const data = await fetch(origin + "/api/posts/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dt),
+      });
+      const posts = await data.json();
+      return posts;
+    };
+    if (window) {
+      asyncUpdate()
+        .then((post) => {
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
