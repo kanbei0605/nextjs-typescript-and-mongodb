@@ -29,6 +29,10 @@ export default function create() {
 
   function handlePostDelivery(e: FormEvent) {
     e.preventDefault();
+    if (post.title === "" || post.content === "") {
+      toast.error("Wrong Input");
+      return;
+    }
     sendPost(post)
       .then((saved) => {
         toast.success("Created successfully");

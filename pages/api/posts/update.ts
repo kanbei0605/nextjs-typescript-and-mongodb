@@ -17,7 +17,8 @@ export default async function update(
         { $set: { title, content } }
       )
         .then((response) => {
-          return { status: "ok" };
+          res.status(200).json({ message: "success" });
+          // return { status: "ok" };
         })
         .catch((error) => {
           return {

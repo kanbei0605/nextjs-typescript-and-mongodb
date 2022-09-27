@@ -49,7 +49,10 @@ export default function edit() {
 
   const handleUpdate = async (e: FormEvent) => {
     e.preventDefault();
-    toast.success("Updated successfully");
+    if (post.title === "" || post.content === "") {
+      toast.error("Wrong Input");
+      return;
+    }
     const dt = {
       id: _id,
       title: post.title,
@@ -63,7 +66,7 @@ export default function edit() {
         body: JSON.stringify(dt),
       });
       if (response.status === 200) {
-        toast.success("Successfully updated");
+        toast.success("Updated successfully");
       } else if (response.status === 409) {
         toast.error("Something went wrong");
       } else {
