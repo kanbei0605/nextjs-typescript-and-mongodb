@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import Router from "next/router";
 import Link from "next/link";
-import { login } from "../utils/auth";
+import toast from 'react-hot-toast';
 
 const RegisterForm = () => {
   const [name, setName] = useState<string>("");
@@ -23,6 +23,7 @@ const RegisterForm = () => {
         body: JSON.stringify(data),
       });
       if (response.status === 200) {
+        toast.success("Created an account");
         Router.push("/");
       } else if (response.status === 409) {
         setFieldError("That email is already taken.");

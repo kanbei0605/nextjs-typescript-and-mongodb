@@ -6,7 +6,8 @@ import { withAuthSync, logout } from "../../utils/auth";
 
 const Usuarios = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
-  
+  const [checks, setChecks] = useState<Boolean[]>([false]);
+
   useEffect(() => {
     getPosts();
   }, []);
@@ -22,6 +23,11 @@ const Usuarios = () => {
       asyncGetPosts()
         .then((posts) => {
           setPosts(posts);
+          let tChecks: Boolean[] = new Array(posts.length);
+          for (let i = 0; i < posts.length; i++) {
+            tChecks[i] = false;
+          }
+          setChecks(tChecks);
         })
         .catch((err) => {
           console.log(err);
@@ -52,12 +58,37 @@ const Usuarios = () => {
     }
   };
 
-  const mappedPosts = posts.reverse().map((post, i) => (
+  const onDelete = async () => {
+    checks.map((val, key) => {
+      if (val === true) {
+        onRemove(posts[key]._id);
+      }
+    });
+  };
+
+  const onChangeCheck = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    setChecks((_checks) =>
+      _checks.map((_check, _id) => (id === _id ? e.target.checked : _check))
+    );
+  };
+
+  const mappedPosts = posts.map((post, i) => (
     <div
       className="p-4 rounded-md text-sm w-full sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/6 border-2 m-1 overflow-auto"
       key={i}
     >
-      <b className="my-2">Title: {post.title}</b>
+      <div className="flex items-center justify-between">
+        <b className="my-2">Title: {post.title}</b>
+        <input
+          type="checkbox"
+          checked={checks[i] ? true : false}
+          onChange={(e) => onChangeCheck(e, i)}
+          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
+        />
+      </div>
       <br />
       <p className="my-4">Content: {post.content}</p>
       <div className="flex space-x-2">
@@ -91,6 +122,12 @@ const Usuarios = () => {
             Add one
           </div>
         </Link>
+        <div
+          className="bg-red-500 inline-block px-2 py-1 text-white cursor-pointer"
+          onClick={onDelete}
+        >
+          Delete
+        </div>
       </div>
       <div className="py-4 flex flex-wrap overflow-y-scroll h-auto my-4 border-4 rounded-md">
         {mappedPosts}

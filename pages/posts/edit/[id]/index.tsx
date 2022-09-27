@@ -1,9 +1,8 @@
 import { FormEvent, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { IPost } from "src/Models/Post";
 import Header from "src/components/Header";
 import Input from "src/components/Input";
-import Router from "next/router";
+import toast from 'react-hot-toast';
 import Link from "next/link";
 
 export interface IItem {
@@ -48,30 +47,31 @@ export default function edit() {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
-  const handlePostDelivery = async (e: FormEvent) => {
+  const handleUpdate = async (e: FormEvent) => {
     e.preventDefault();
+    toast.success("Updated successfully");
     const dt = {
       id: _id,
       title: post.title,
       content: post.content
     };
-    const asyncUpdate = async () => {
-      const { origin } = window.location;
-      const data = await fetch(origin + "/api/posts/update", {
+
+    
+    try {
+      const response = await fetch("/api/posts/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dt),
       });
-      const posts = await data.json();
-      return posts;
-    };
-    if (window) {
-      asyncUpdate()
-        .then((post) => {
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (response.status === 200) {
+        toast.success("Successfully updated");
+      } else if (response.status === 409) {
+        toast.error("Something went wrong");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (err) {
+      toast.error("SYou have an error in your code or there are network issues");
     }
   };
 
@@ -79,7 +79,7 @@ export default function edit() {
     <div>
       <Header>Edit item</Header>
       <form
-        onSubmit={handlePostDelivery}
+        onSubmit={handleUpdate}
         className="flex flex-wrap w-full md:w-64 items-center justify-center space-y-2"
       >
         <div className="w-full">

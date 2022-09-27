@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { login } from "../utils/auth";
+import toast from 'react-hot-toast';
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,6 +21,7 @@ const LoginForm = () => {
         }),
       });
       if (response.status === 200) {
+        toast.success("Login success");
         const { token } = await response.json();
         login({ token }, true);
       } else if (response.status === 404) {

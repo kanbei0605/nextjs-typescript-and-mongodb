@@ -3,6 +3,7 @@ import Header from "src/components/Header";
 import Input from "src/components/Input";
 import Router from "next/router";
 import Link from "next/link";
+import toast from 'react-hot-toast';
 
 export default function create() {
   const [post, setPost] = useState({
@@ -30,6 +31,7 @@ export default function create() {
     e.preventDefault();
     sendPost(post)
       .then((saved) => {
+        toast.success("Created successfully");
         Router.push("/posts");
         setSent(typeof saved !== "undefined");
       })
@@ -68,7 +70,7 @@ export default function create() {
             </button>
           </Link>
           <button className="px-3 py-1.5 bg-blue-400 text-white rounded-md">
-            Save
+            Create
           </button>
         </div>
       </form>
