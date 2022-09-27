@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Router from "next/router";
 import Link from "next/link";
 import { login } from "../utils/auth";
@@ -9,7 +9,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState<string>("");
   const [fieldError, setFieldError] = useState<string>("");
 
-  const onRegister = async (e) => {
+  const onRegister = async (e: FormEvent) => {
     e.preventDefault();
     const data = {
       name: name,

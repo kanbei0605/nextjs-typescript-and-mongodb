@@ -1,42 +1,63 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { IPost } from "src/Models/Post";
 import Header from "src/components/Header";
 import Input from "src/components/Input";
 import Router from "next/router";
 import Link from "next/link";
 
+export interface IItem {
+  title: string;
+  content: string;
+}
+
 export default function edit() {
-  const [post, setPost] = useState({
+  const router = useRouter();
+  const _id = router.query["id"];
+  const [post, setPost] = useState<IItem>({
     title: "",
     content: "",
   });
+
+  useEffect(() => {
+    const dt = {
+      id: _id,
+    };
+    const asyncGetPost = async () => {
+      const { origin } = window.location;
+      const data = await fetch(origin + "/api/posts/getbyid", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dt),
+      });
+      const posts = await data.json();
+      return posts;
+    };
+    if (window) {
+      asyncGetPost()
+        .then((post) => {
+          console.log(post);
+          setPost(post);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [_id]);
 
   const updatePost = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
-  const [sent, setSent] = useState(false);
-
-  async function sendPost(data) {
-    const saved = await fetch(window.location.origin + "/api/posts/create", {
-      method: "POSt",
-      body: JSON.stringify({
-        ...data,
-        date: new Date(),
-      }),
-    });
-  }
-
-  function handlePostDelivery(e: FormEvent) {
+  const handlePostDelivery = async (e: FormEvent) => {
     e.preventDefault();
-    sendPost(post)
-      .then((saved) => {
-        Router.push("/posts");
-        setSent(typeof saved !== "undefined");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+    const dt = {
+      id: _id,
+      title: post.title,
+      content: post.content
+    };
+    console.log(dt);
+  };
 
   return (
     <div>
@@ -58,6 +79,7 @@ export default function edit() {
             placeholder="Content"
             className="border-2 border-gray-300 w-full px-3 py-1.5 rounded-md shadow-md focus:border-gray-400 resize-none"
             name="content"
+            value={post.content}
             onChange={updatePost}
           ></textarea>
         </div>

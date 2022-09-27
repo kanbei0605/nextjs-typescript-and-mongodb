@@ -11,7 +11,7 @@ export default async function createPost(
     try {
       await connectToDatabase();
       const body: IPost = JSON.parse(req.body);
-      const newPost = new Post(body);
+      const newPost: IPost = new Post(body);
       const saved = await newPost.save();
       res.send(saved);
     } catch (err) {

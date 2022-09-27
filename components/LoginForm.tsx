@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { login } from "../utils/auth";
@@ -8,7 +8,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState<string>("");
   const [fieldError, setFieldError] = useState<string>("");
 
-  const onLogin = async (e) => {
+  const onLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch("/api/login", {

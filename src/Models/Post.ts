@@ -2,7 +2,7 @@ import mongoose, { Document, model, Model, Schema } from "mongoose";
 
 export interface IPost extends Document {
   title: string;
-  date: string;
+  date?: string;
   content: string;
 }
 

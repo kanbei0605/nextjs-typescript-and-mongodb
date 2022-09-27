@@ -6,6 +6,7 @@ import { withAuthSync, logout } from "../../utils/auth";
 
 const Usuarios = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
+  
   useEffect(() => {
     getPosts();
   }, []);
@@ -34,7 +35,7 @@ const Usuarios = () => {
     };
     try {
       const response = await fetch("/api/posts/delete", {
-        method: "POST",
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
