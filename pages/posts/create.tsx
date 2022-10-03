@@ -15,8 +15,6 @@ export default function create() {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
-  const [sent, setSent] = useState(false);
-
   async function sendPost(data) {
     const saved = await fetch(window.location.origin + "/api/posts/create", {
       method: "POSt",
@@ -37,7 +35,6 @@ export default function create() {
       .then((saved) => {
         toast.success("Created successfully");
         Router.push("/posts");
-        setSent(typeof saved !== "undefined");
       })
       .catch((err) => {
         console.log(err);
