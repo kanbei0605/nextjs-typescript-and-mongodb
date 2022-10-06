@@ -11,7 +11,6 @@ export default async function getPosts(
     const posts = await Post.find();
     res.json(posts);
   } catch (err) {
-    console.log(err);
     res.status(500).send("error");
   }
 }
